@@ -1,46 +1,49 @@
-%define major 5
-%define libname %mklibname KGantt %{major}
-%define devname %mklibname KGantt -d
+%define major 6
+%define devname %mklibname KGantt6 -d
 
 Name: kdiagram
-Version: 2.8.0
+Version: 3.0.0
 %define is_beta %(if test `echo %{version} |cut -d. -f3` -ge 70; then echo -n 1; else echo -n 0; fi)
 %if %{is_beta}
 %define ftpdir unstable
 %else
 %define ftpdir stable
 %endif
-Release: 2
+Release: 1
 Source0: http://download.kde.org/%{ftpdir}/%{name}/%{version}/%{name}-%{version}.tar.xz
 Summary: KDE library for gantt charts
 URL: http://kde.org/
 License: GPL
 Group: System/Libraries
 BuildRequires: cmake(ECM)
-BuildRequires: cmake(Qt5Core)
-BuildRequires: cmake(Qt5Test)
-BuildRequires: cmake(Qt5Qml)
-BuildRequires: cmake(KF5Libkdepim)
-BuildRequires: cmake(Qt5PrintSupport)
-BuildRequires: cmake(Qt5Svg)
-BuildRequires: cmake(Qt5Widgets)
-BuildRequires: cmake(Qt5Sql)
+BuildRequires: cmake(Qt6)
+BuildRequires: cmake(Qt6Core)
+BuildRequires: cmake(Qt6DBus)
+BuildRequires: cmake(Qt6Gui)
+BuildRequires: cmake(Qt6Test)
+BuildRequires: cmake(Qt6Qml)
+BuildRequires: cmake(KPim6Libkdepim)
+BuildRequires: cmake(Qt6PrintSupport)
+BuildRequires: cmake(Qt6Svg)
+BuildRequires: cmake(Qt6Widgets)
+BuildRequires: cmake(Qt6Sql)
+BuildRequires: cmake(Qt6LinguistTools)
 BuildRequires: sasl-devel
 BuildRequires: doxygen
-BuildRequires: qt5-assistant
+BuildRequires: qt6-qttools-assistant
 
 %description
 KDE library for gantt charts.
 
-%libpackage KChart 2
-%libpackage KGantt 2
+%libpackage KChart6 3
+%libpackage KGantt6 3
 
 %package -n %{devname}
 Summary: Development files for %{name}
 Group: Development/C
 Requires: %{name} = %{EVRD}
-Requires: %{mklibname KChart 2} = %{EVRD}
-Requires: %{mklibname KGantt 2} = %{EVRD}
+Requires: %{mklibname KChart6} = %{EVRD}
+Requires: %{mklibname KGantt6} = %{EVRD}
 
 %description -n %{devname}
 Development files (Headers etc.) for %{name}.
@@ -49,7 +52,9 @@ Development files (Headers etc.) for %{name}.
 %autosetup -p1
 
 %build
-%cmake_kde5
+%cmake \
+	-DKDE_INSTALL_USE_QT_SYS_PATHS:BOOL=ON \
+	-G Ninja
 cd ../
 %ninja -C build
 
@@ -68,5 +73,4 @@ done ) >%{name}.lang
 %{_includedir}/*
 %{_libdir}/*.so
 %{_libdir}/cmake/*
-%{_libdir}/qt5/mkspecs/modules/*.pri
-%doc %{_docdir}/qt5/*
+%{_qtdir}/mkspecs/modules/*.pri
