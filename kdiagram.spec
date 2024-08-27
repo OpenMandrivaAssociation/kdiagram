@@ -2,14 +2,14 @@
 %define devname %mklibname KGantt6 -d
 
 Name: kdiagram
-Version: 3.0.0
+Version: 3.0.1
 %define is_beta %(if test `echo %{version} |cut -d. -f3` -ge 70; then echo -n 1; else echo -n 0; fi)
 %if %{is_beta}
 %define ftpdir unstable
 %else
 %define ftpdir stable
 %endif
-Release: 2
+Release: 1
 Source0: http://download.kde.org/%{ftpdir}/%{name}/%{version}/%{name}-%{version}.tar.xz
 Summary: KDE library for gantt charts
 URL: http://kde.org/
