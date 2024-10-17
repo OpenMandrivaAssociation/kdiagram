@@ -12,7 +12,7 @@ Version: 3.0.1
 Release: 1
 Source0: http://download.kde.org/%{ftpdir}/%{name}/%{version}/%{name}-%{version}.tar.xz
 Summary: KDE library for gantt charts
-URL: http://kde.org/
+URL: https://kde.org/
 License: GPL
 Group: System/Libraries
 BuildRequires: cmake(ECM)
